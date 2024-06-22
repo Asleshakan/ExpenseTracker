@@ -1,0 +1,44 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  API_TOKEN: $AZURE_STATIC_WEB_APPS_API_TOKEN
+  APP_PATH: '$CI_PROJECT_DIR/ExpenseTracker.Client'
+  OUTPUT_PATH: 'wwwroot'
+  API_PATH: '$CI_PROJECT_DIR/ExpenseTracker.Server'
+  PUBLISH_DIR: '$CI_PROJECT_DIR/publish'
+
+before_script:
+  # Install .NET SDK and Azure CLI
+  - apt-get update && apt-get install -y wget apt-transport-https
+  - wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  - dpkg -i packages-microsoft-prod.deb
+  - apt-get update && apt-get install -y dotnet-sdk-6.0
+  - curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+  - apt-get update && apt-get install -y azure-cli
+
+build:
+  stage: build
+  script:
+    # Build and publish the client app
+    - dotnet restore $APP_PATH
+    - dotnet build $APP_PATH --configuration Release
+    - dotnet publish $APP_PATH -c Release -o $PUBLISH_DIR/client
+    # Build and publish the API
+    - dotnet restore $API_PATH
+    - dotnet build $API_PATH --configuration Release
+    - dotnet publish $API_PATH -c Release -o $PUBLISH_DIR/api
+  artifacts:
+    paths:
+      - $PUBLISH_DIR
+
+deploy:
+  stage: deploy
+  image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
+  script:
+    - echo "App deployed successfully."
+  dependencies:
+    - build
+  only:
+    - main
