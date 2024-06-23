@@ -9,6 +9,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddMudServices();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5002") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://gentle-dune-0ac2e510f.5.azurestaticapps.net/api/") });
 
 await builder.Build().RunAsync();
