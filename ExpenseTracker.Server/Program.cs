@@ -21,7 +21,16 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
 builder.Services.AddRazorPages();  // Combine razor pages and api
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorClient",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:7093")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
 // 1. Add Authentication Services
 // builder.Services.AddAuthentication(options =>
 // {
@@ -64,6 +73,7 @@ app.UseStaticFiles(); // to laod wasm static files
 
 app.UseBlazorFrameworkFiles(); //  a special middleware component to serve the client 
 
+app.UseCors("AllowBlazorClient");
 app.UseAuthorization();
 
 
