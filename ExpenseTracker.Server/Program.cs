@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowBlazorClient",
         builder =>
         {
-            builder.WithOrigins("*")
+            builder.WithOrigins("https://gentle-dune-0ac2e510f.5.azurestaticapps.net")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
