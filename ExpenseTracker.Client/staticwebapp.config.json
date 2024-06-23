@@ -2,7 +2,8 @@
     "routes": [
       {
         "route": "/api/*",
-        "serve": "/api"
+        "serve": "/api",
+        "allowedRoles": ["anonymous"]
       }
     ],
     "navigationFallback": {
