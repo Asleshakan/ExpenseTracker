@@ -8,22 +8,25 @@
 @inject IJSRuntime JsRuntime
 
 <MudTable Dense="true" Hover="true" Bordered="true" Striped="true" Loading="@loading" Class="mt-15" HorizontalScrollbar="true"
-          ServerData="@(new Func<TableState, Task<TableData<InvoiceVm>>>(GetServerData))" @ref="_table">
-    <ToolBarContent>
+    ServerData="@(new Func<TableState, Task<TableData<InvoiceVm>>>(GetServerData))" @ref="_table">
+    <ToolBarContent >
+
         <MudGrid Class="mb-8">
-            <MudItem sm="12">
+             <MudItem sm="12">
                 <MudText Typo="Typo.h6">  <strong> Invoice List </strong> </MudText>
-            </MudItem>
+             </MudItem>
             <MudItem sm="12" Class="d-flex align-center flex-wrap">
                 <MudButton Class="mr-2" Variant="Variant.Filled" Color="Color.Primary" OnClick="@OnAddNew">Create</MudButton>
-                <MudButton Class="mr-2" Variant="Variant.Filled" Color="Color.Success" Href="@GetExportLink()" Target="_blank">Export</MudButton>
-                <MudButton Variant="Variant.Filled" Color="Color.Warning" OnClick="@Reload">Reload</MudButton>
-                <MudSpacer />
-                <MudDateRangePicker Margin="Margin.Dense" Variant="Variant.Outlined" Label="Enter the date range" DateRange="dateRange" DateRangeChanged="@(value => { dateRange = value; OnSearch(); })" DateFormat="yyyy-MM-dd" />
+                <MudButton Class="mr-2" Variant="Variant.Filled" Color="Color.Success"  Href="@GetExportLink()"  Target="_blank">Export</MudButton>
+                <MudButton  Variant="Variant.Filled" Color="Color.Warning" OnClick="@Reload">Reload</MudButton>
+                <MudSpacer/>
+                <MudDateRangePicker Margin="Margin.Dense"  Variant="Variant.Outlined" Label="Enter the date range" DateRange="dateRange" DateRangeChanged="@(value => { dateRange = value; OnSearch(); })" DateFormat="yyyy-MM-dd" />
             </MudItem>
-        </MudGrid>
+
+       </MudGrid>
+
     </ToolBarContent>
-    <HeaderContent>
+    <HeaderContent >
         <MudTh>Invoice no</MudTh>
         <MudTh>Date</MudTh>
         <MudTh>Actions</MudTh>
@@ -37,31 +40,32 @@
             </MudLink>
             <MudText @onclick="@(async ()=>await OnDelete(@context.Id))">
                 <MudIcon Class="cursor-pointer" Icon="@Icons.Material.Filled.Delete" Title="Delete"
-                         Color="Color.Secondary" />
+                    Color="Color.Secondary" />
             </MudText>
+            
             <MudText @onclick="@(()=> context.ShowProduct = !context.ShowProduct)">
                 <MudIcon Class="cursor-pointer" Icon="@Icons.Filled.Info" Title="Track invoice"
-                         Color="Color.Info" />
+                    Color="Color.Info" />
             </MudText>
-            <MudLink Href="@GetExportLink(@context.Id)" Target="_blank">
+            <MudLink Href="@GetExportLink(@context.Id)" Target="_blank" >
                 <MudIcon Class="cursor-pointer" Icon="@Icons.Filled.Download" Title="Export as PDF"
-                         Color="Color.Success" />
+                    Color="Color.Success" />
             </MudLink>
         </MudTd>
     </RowTemplate>
     <ChildRowContent>
-        @if (context.ShowProduct)
-        {
-            <MudTr>
-                <td colspan="4">
-                    <MudCard Elevation="0">
-                        <MudCardHeader>
-                            <CardHeaderContent>
-                                <MudText Typo="Typo.body1">Product Details for <strong>@context.InvoiceNo</strong></MudText>
-                            </CardHeaderContent>
-                        </MudCardHeader>
-                        <MudCardContent Class="pa-0">
-                            <MudTable Class="mb-4" Items="@context.InvoiceDetails" Context="ProductContext" Hover="true" Bordered="true" Striped="true" Breakpoint="Breakpoint.Sm" Elevation="0">
+		@if (context.ShowProduct)
+				{
+                    <MudTr>
+                    <td colspan="4">
+                        <MudCard Elevation="0">
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.body1">Product Details for <strong>@context.InvoiceNo</strong></MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent Class="pa-0">
+                                <MudTable  Class="mb-4" Items="@context.InvoiceDetails" Context="ProductContext" Hover="true" Bordered="true" Striped="true"  Breakpoint="Breakpoint.Sm" Elevation="0">
                                 <ColGroup>
                                     <col />
                                     <col />
@@ -69,38 +73,41 @@
                                 </ColGroup>
                                 <HeaderContent>
                                     <MudTh>Product name</MudTh>
-                                    <MudTh>Unit price</MudTh>
+                                    <MudTh>Unit  price</MudTh>
                                     <MudTh>Quantity</MudTh>
-                                    <MudTh>Sub Total</MudTh>
+                                    <MudTh>Sub Total </MudTh>
                                 </HeaderContent>
                                 <RowTemplate>
-                                    <MudTd DataLabel="Product name">@ProductContext.ProductName</MudTd>
-                                    <MudTd DataLabel="Unit price">@ProductContext.ProductPrice</MudTd>
-                                    <MudTd DataLabel="Quantity">@ProductContext.Quantity</MudTd>
-                                    <MudTd DataLabel="Total price">@GettotalPricePerProduct(@ProductContext.Quantity, @ProductContext.ProductPrice)</MudTd>
+                                        <MudTd DataLabel="Product name">@ProductContext.ProductName</MudTd>
+                                        <MudTd DataLabel="Unit  price">@ProductContext.ProductPrice</MudTd>
+                                        <MudTd DataLabel="Quantity">@ProductContext.Quantity</MudTd>
+                                        <MudTd DataLabel="Total price"> @GettotalPricePerProduct(@ProductContext.Quantity, @ProductContext.ProductPrice)</MudTd>                                    
                                 </RowTemplate>
                                 <FooterContent>
-                                    <MudTd colspan="6"><strong>Total Price of invoice @context.InvoiceNo :</strong> @context.InvoiceDetails.Sum((e) => (e.Quantity * e.ProductPrice))</MudTd>
+                                        <MudTd colspan="6"><strong> Total Price of invoice @context.InvoiceNo :</strong>  @context.InvoiceDetails.Sum((e) => (e.Quantity * e.ProductPrice))</MudTd>
                                 </FooterContent>
-                            </MudTable>
-                        </MudCardContent>
-                    </MudCard>
-                </td>
-            </MudTr>
-        }
-    </ChildRowContent>
-    <FooterContent>
-        <MudTd colspan="6"><strong>Total expenses :</strong> @invoices?.SelectMany(x => x.InvoiceDetails).Sum(e => e.Quantity * e.ProductPrice)</MudTd>
-    </FooterContent>
+                                </MudTable>
+                            </MudCardContent>
+                        </MudCard>
+                    </td>
+                    </MudTr>
+		}
+	</ChildRowContent>
+        <FooterContent>
+                  <MudTd colspan="6"><strong> Total expenses :</strong> @invoices?.SelectMany(x => x.InvoiceDetails).Sum(e => e.Quantity * e.ProductPrice)</MudTd>
+        </FooterContent>
     <PagerContent>
         <MudTablePager />
     </PagerContent>
 </MudTable>
 
+
+
 @code {
+
     private MudTable<InvoiceVm> _table;
     private PaginatedQuery paginatedQuery = new PaginatedQuery();
-    List<InvoiceVm> invoices = new List<InvoiceVm>();
+  List<InvoiceVm> invoices = new List<InvoiceVm>();
     private bool loading = true;
 
     private DateRange dateRange = new DateRange();
@@ -108,9 +115,7 @@
     private string GetLink(int id)
     {
         return id != 0 ? $"/edit-invoice/{id}" : "#";
-    }
-
-    private double GettotalPricePerProduct(int quantity, double unitPrice)
+    } private double GettotalPricePerProduct(int quantity,double unitPrice )
     {
         return quantity * unitPrice;
     }
@@ -119,12 +124,12 @@
     {
         Navigation.NavigateTo("/add-invoice");
     }
-
     private async Task OnDelete(int id)
     {
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
         if (confirmed)
         {
+
             var response = await _httpClient.DeleteAsync($"api/invoice/{id}");
             if (response.IsSuccessStatusCode)
             {
@@ -132,9 +137,10 @@
                 Navigation.NavigateTo("invoice-list");
             }
         }
-    }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+
+    }
+ protected override Task OnAfterRenderAsync(bool firstRender)
     {
         return base.OnAfterRenderAsync(firstRender);
     }
@@ -143,68 +149,49 @@
     {
         paginatedQuery.PerPage = state.PageSize;
         paginatedQuery.Page = state.Page + 1;
-        paginatedQuery.SortBy = state.SortDirection == SortDirection.Descending ? state.SortLabel + " desc" : state.SortLabel;
+        paginatedQuery.SortBy = state.SortDirection == SortDirection.Descending ?
+        state.SortLabel + " desc" :
+        state.SortLabel;
 
-        string path = $"/api/invoice?perPage={paginatedQuery.PerPage}&page={paginatedQuery.Page}&SortBy={paginatedQuery.SortBy}";
+        string path = $"/api/invoice?perPage={paginatedQuery.PerPage}&page={paginatedQuery.Page}&SortBy={ paginatedQuery.SortBy}";
 
         if (dateRange.Start != null || dateRange.End != null)
         {
             loading = true;
             paginatedQuery.Start = dateRange.Start;
             paginatedQuery.End = dateRange.End;
+
             path = path + $"&start={paginatedQuery.Start}&end={paginatedQuery.End}";
+
         }
 
         loading = true;
 
-        try
-        {
-            var response = await _httpClient.GetAsync(path);
-            response.EnsureSuccessStatusCode();
+        var response = await
+        _httpClient.GetFromJsonAsync<PaginatedData<List<InvoiceVm>>>
+            (path);
 
-            var responseData = await response.Content.ReadFromJsonAsync<PaginatedData<List<InvoiceVm>>>();
+        loading = false;
+        invoices = response.Data;
+        return new TableData<InvoiceVm>() { Items = response.Data, TotalItems = response.MetaData.TotalCount };
 
-            if (responseData != null)
-            {
-                invoices = responseData.Data;
-                return new TableData<InvoiceVm>() { Items = responseData.Data, TotalItems = responseData.MetaData.TotalCount };
-            }
-            else
-            {
-                throw new Exception("Invalid response data.");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error fetching server data: {ex.Message}");
-            return new TableData<InvoiceVm>() { Items = new List<InvoiceVm>(), TotalItems = 0 };
-        }
-        finally
-        {
-            loading = false;
-        }
     }
-
     private void OnSearch()
     {
         _table.ReloadServerData();
     }
-
     private void Reload()
     {
         dateRange = new DateRange();
         _table.ReloadServerData();
     }
 
-    private string GetExportLink(int? id = null)
-    {
-        if (id != null)
-        {
+    private string GetExportLink (int? id = null){
+        if(id != null){
             return $"api/invoice/print-{id}";
         }
         else
-        {
-            return $"/api/invoice/print-all?perPage={paginatedQuery.PerPage}&page={paginatedQuery.Page}&SortBy={paginatedQuery.SortBy}&start={paginatedQuery.Start}&end={paginatedQuery.End}";
-        }
+        return $"/api/invoice/print-all?perPage={paginatedQuery.PerPage}&page={paginatedQuery.Page}&SortBy={ paginatedQuery.SortBy}&start={paginatedQuery.Start}&end={paginatedQuery.End}";
+
     }
 }
