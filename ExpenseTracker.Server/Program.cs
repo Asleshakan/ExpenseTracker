@@ -20,28 +20,19 @@ builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddRazorPages();  // Combine razor pages and api
-<<<<<<< HEAD
 
-=======
->>>>>>> 87bd40b3aba12a4f65604142dd2ac936d6de585a
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazorClient",
         builder =>
         {
-<<<<<<< HEAD
-            builder.WithOrigins("https://localhost:7093")
-=======
             builder.WithOrigins("*")
->>>>>>> 87bd40b3aba12a4f65604142dd2ac936d6de585a
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
 });
-<<<<<<< HEAD
-=======
 
->>>>>>> 87bd40b3aba12a4f65604142dd2ac936d6de585a
+
 // 1. Add Authentication Services
 // builder.Services.AddAuthentication(options =>
 // {
@@ -83,10 +74,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles(); // to laod wasm static files
 
 app.UseBlazorFrameworkFiles(); //  a special middleware component to serve the client 
-<<<<<<< HEAD
 
-=======
->>>>>>> 87bd40b3aba12a4f65604142dd2ac936d6de585a
 app.UseCors("AllowBlazorClient");
 app.UseAuthorization();
 
