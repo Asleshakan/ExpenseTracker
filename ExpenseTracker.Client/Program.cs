@@ -9,6 +9,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddMudServices();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://gentle-dune-0ac2e510f.5.azurestaticapps.net/") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://kaexpensetrackerserver.azurewebsites.net") });
 
 await builder.Build().RunAsync();
